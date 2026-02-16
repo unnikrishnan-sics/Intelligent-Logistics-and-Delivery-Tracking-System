@@ -61,21 +61,21 @@ const Navbar = () => {
         menuItems.push({
             key: 'admin',
             label: 'Admin Panel',
-            path: '/admin',
+            path: '/dashboard/admin',
             icon: <Person />,
         });
     } else if (user?.role === 'Driver') {
         menuItems.push({
             key: 'driver',
             label: 'Deliveries',
-            path: '/driver',
+            path: '/dashboard/driver',
             icon: <DirectionsCar />,
         });
     } else if (user?.role === 'Customer') {
         menuItems.push({
             key: 'customer',
             label: 'My Orders',
-            path: '/customer',
+            path: '/dashboard/customer',
             icon: <Inventory2 />,
         });
     }

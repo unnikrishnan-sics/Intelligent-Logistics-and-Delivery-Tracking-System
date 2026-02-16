@@ -117,16 +117,10 @@ const assignDriver = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
 
     if (order) {
-        // TODO: Complete driver assignment logic
-        /*
         order.driver_id = driver_id;
         order.status = 'Assigned';
         const updatedOrder = await order.save();
         res.json(updatedOrder);
-        */
-        // res.status(501).json({ message: 'Function incomplete' });
-        res.json({ status: 'Assigned (Simulation)' });
-
     } else {
         res.status(404);
         throw new Error('Order not found');
@@ -143,8 +137,6 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id).populate('sender', 'name email');
 
     if (order) {
-        // TODO: Complete status update logic
-        /*
         order.status = status;
         if (pickup_proof) {
             order.pickup_proof = pickup_proof;
@@ -167,9 +159,6 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
         }
 
         res.json(updatedOrder);
-        */
-        // res.status(501).json({ message: 'Function incomplete' });
-        res.json({ status: status + ' (Simulation)' });
     } else {
         res.status(404);
         throw new Error('Order not found');
@@ -186,8 +175,6 @@ const verifyOrderOTP = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
 
     if (order) {
-        // TODO: Complete OTP verification logic
-        /*
         if (order.otp === otp) {
             order.status = 'Delivered';
             const updatedOrder = await order.save();
@@ -196,9 +183,6 @@ const verifyOrderOTP = asyncHandler(async (req, res) => {
             res.status(400);
             throw new Error('Invalid OTP');
         }
-        */
-        // res.status(501).json({ message: 'Function incomplete' });
-        res.json({ status: 'Delivered (Simulation)' });
     } else {
         res.status(404);
         throw new Error('Order not found');

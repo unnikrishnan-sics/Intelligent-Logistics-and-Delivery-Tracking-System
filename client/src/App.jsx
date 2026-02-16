@@ -56,7 +56,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route
-              path="/admin/*"
+              path="/dashboard/admin/*"
               element={
                 <PrivateRoute allowedRoles={['Admin']}>
                   <AdminDashboard />
@@ -64,7 +64,7 @@ function App() {
               }
             />
             <Route
-              path="/driver/*"
+              path="/dashboard/driver/*"
               element={
                 <PrivateRoute allowedRoles={['Driver']}>
                   <DriverDashboard />
@@ -72,7 +72,7 @@ function App() {
               }
             />
             <Route
-              path="/customer/*"
+              path="/dashboard/customer/*"
               element={
                 <PrivateRoute allowedRoles={['Customer']}>
                   <CustomerDashboard />

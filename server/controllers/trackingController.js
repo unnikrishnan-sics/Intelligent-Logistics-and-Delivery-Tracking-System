@@ -6,39 +6,10 @@ const TrackingHistory = require('../models/TrackingHistory');
 // @route   PUT /api/tracking/update
 // @access  Private/Driver
 const updateLocation = asyncHandler(async (req, res) => {
-    const { lat, lng, orderId } = req.body;
-
-    let vehicle = await Vehicle.findOne({ driver_id: req.user._id });
-
-    if (!vehicle) {
-        // If vehicle doesn't exist for driver, create one (simple fallback)
-        vehicle = await Vehicle.create({
-            driver_id: req.user._id,
-            vehicle_number: `TEMP-${req.user._id.toString().slice(-4)}`,
-            model: 'Standard Delivery Vehicle',
-            current_coordinates: { lat, lng },
-        });
-    } else {
-        vehicle.current_coordinates = { lat, lng };
-        vehicle.last_updated = Date.now();
-        await vehicle.save();
-    }
-
-    // Update Tracking History if orderId is provided
-    if (orderId) {
-        let history = await TrackingHistory.findOne({ order_id: orderId });
-        if (!history) {
-            history = await TrackingHistory.create({
-                order_id: orderId,
-                coordinates: [{ lat, lng }],
-            });
-        } else {
-            history.coordinates.push({ lat, lng });
-            await history.save();
-        }
-    }
-
-    res.json({ message: 'Location updated successfully', coordinates: { lat, lng } });
+    // Simulation: Do nothing but return success
+    // const { lat, lng, orderId } = req.body;
+    // ... (original logic commented out)
+    res.json({ message: 'Location updated simulation', coordinates: req.body });
 });
 
 // @desc    Get order tracking history

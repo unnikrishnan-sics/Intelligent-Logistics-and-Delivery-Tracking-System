@@ -45,18 +45,12 @@ const deleteUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
 
     if (user) {
-        // TODO: Complete the deletion logic
-        /*
         if (user.role === 'Admin' && (await User.countDocuments({ role: 'Admin' })) <= 1) {
             res.status(400);
             throw new Error('Cannot delete the last admin');
         }
         await User.deleteOne({ _id: user._id });
         res.json({ message: 'User removed' });
-        */
-        // res.status(501).json({ message: 'Function incomplete' });
-        res.json({ message: 'User removed (Simulation)' });
-
     } else {
         res.status(404);
         throw new Error('User not found');
@@ -71,14 +65,9 @@ const approveUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
 
     if (user) {
-        // TODO: Complete approval logic
-        /*
         user.isApproved = true;
         await user.save();
         res.json({ message: 'User approved' });
-        */
-        // res.status(501).json({ message: 'Function incomplete' });
-        res.json({ message: 'User approved (Simulation)' });
     } else {
         res.status(404);
         throw new Error('User not found');
