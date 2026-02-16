@@ -26,38 +26,44 @@ const createOrder = asyncHandler(async (req, res) => {
         senderId = req.body.sender_id;
     }
 
-    const order = await Order.create({
-        sender: senderId,
-        receiver_name,
-        receiver_phone,
-        pickup_addr,
-        dest_addr,
-        weight,
-        priority,
-        otp,
-        pickup_coordinates,
-        dest_coordinates,
-    });
+    try {
+        const order = await Order.create({
+            sender: senderId,
+            receiver_name,
+            receiver_phone,
+            pickup_addr,
+            dest_addr,
+            weight,
+            priority,
+            otp,
+            pickup_coordinates,
+            dest_coordinates,
+        });
 
-    if (order) {
-        // Send Order Confirmation Email
-        try {
-            const sendEmail = require('../utils/sendEmail');
-            const user = await req.user; // User is already attached by protect middleware
-            await sendEmail({
-                email: user.email,
-                subject: 'Order Placed Successfully - IntelliDrive',
-                message: `Hi ${user.name},\n\nYour order has been placed successfully. Order ID: ${order._id}\nOTP for delivery: ${otp}\n\nTrack your order on the dashboard.\n\nBest Regards,\nIntelliDrive Team`,
-                html: `<h1>Order Placed Successfully</h1><p>Hi ${user.name},</p><p>Your order has been placed successfully.</p><p><b>Order ID:</b> ${order._id}</p><p><b>OTP for delivery:</b> ${otp}</p><p>Track your order on the dashboard.</p><p>Best Regards,</p><p>IntelliDrive Team</p>`
-            });
-        } catch (error) {
-            console.error('Order email send failed:', error);
+        if (order) {
+            // Send Order Confirmation Email
+            try {
+                const sendEmail = require('../utils/sendEmail');
+                const user = req.user; // User is already attached by protect middleware
+                await sendEmail({
+                    email: user.email,
+                    subject: 'Order Placed Successfully - IntelliDrive',
+                    message: `Hi ${user.name},\n\nYour order has been placed successfully. Order ID: ${order._id}\nOTP for delivery: ${otp}\n\nTrack your order on the dashboard.\n\nBest Regards,\nIntelliDrive Team`,
+                    html: `<h1>Order Placed Successfully</h1><p>Hi ${user.name},</p><p>Your order has been placed successfully.</p><p><b>Order ID:</b> ${order._id}</p><p><b>OTP for delivery:</b> ${otp}</p><p>Track your order on the dashboard.</p><p>Best Regards,</p><p>IntelliDrive Team</p>`
+                });
+            } catch (error) {
+                console.error('Order email send failed:', error);
+            }
+
+            res.status(201).json(order);
+        } else {
+            res.status(400);
+            throw new Error('Invalid order data');
         }
-
-        res.status(201).json(order);
-    } else {
-        res.status(400);
-        throw new Error('Invalid order data');
+    } catch (error) {
+        console.error("Order Creation Error:", error);
+        res.status(400); // Bad Request for validation errors
+        throw error;
     }
 });
 

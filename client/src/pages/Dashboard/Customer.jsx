@@ -62,7 +62,7 @@ const CustomerDashboard = () => {
         receiver_phone: '',
         pickup_addr: '',
         dest_addr: '',
-        weight: '',
+        weight: '1',
         priority: 'Standard',
         pickup_coordinates: { lat: 12.9716, lng: 77.5946 },
         dest_coordinates: { lat: 12.9716, lng: 77.5946 }
