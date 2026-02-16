@@ -5,10 +5,8 @@ const Chat = require('../models/Chat');
 // @route   GET /api/chat/:orderId
 // @access  Private
 const getChats = asyncHandler(async (req, res) => {
-    const chats = await Chat.find({ orderId: req.params.orderId })
-        .populate('sender', 'name role')
-        .sort({ createdAt: 1 });
-    res.json(chats);
+    // Simulation: Return empty chat list or dummy message
+    res.json([]);
 });
 
 // @desc    Send a message
@@ -22,15 +20,14 @@ const sendMessage = asyncHandler(async (req, res) => {
         throw new Error('Invalid message data');
     }
 
-    let chat = await Chat.create({
+    // Simulation: Return success without saving
+    res.status(201).json({
         orderId,
         sender: req.user._id,
         message,
+        createdAt: new Date(),
+        senderName: req.user.name
     });
-
-    chat = await chat.populate('sender', 'name role');
-
-    res.status(201).json(chat);
 });
 
 module.exports = { getChats, sendMessage };

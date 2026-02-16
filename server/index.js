@@ -57,37 +57,14 @@ io.on('connection', (socket) => {
     });
 
     socket.on('update_location', async (data) => {
-        // data: { orderId, driverId, lat, lng }
-        if (data.orderId) {
-            io.to(data.orderId).emit('location_updated', data);
-        }
-
-        // Also update driver's global location
-        if (data.driverId) {
-            try {
-                await User.findByIdAndUpdate(data.driverId, {
-                    current_coordinates: { lat: data.lat, lng: data.lng },
-                    isOnline: true // Ensure they are marked online
-                });
-                io.emit('driver_location_updated', data);
-            } catch (error) {
-                console.error('Error updating driver location:', error);
-            }
-        }
+        // Simulation: Real-time tracking disabled
+        console.log('Location update received (Simulated):', data.orderId);
     });
 
     // General location ping for drivers without active orders
     socket.on('driver_location_ping', async (data) => {
-        // data: { driverId, lat, lng }
-        try {
-            await User.findByIdAndUpdate(data.driverId, {
-                current_coordinates: { lat: data.lat, lng: data.lng },
-                isOnline: true
-            });
-            io.emit('driver_location_updated', data); // Data now includes name/avatar from client
-        } catch (error) {
-            console.error('Error handling driver ping:', error);
-        }
+        // Simulation: Driver tracking disabled
+        console.log('Driver ping (Simulated):', data.driverId);
     });
 
     // Chat Events
@@ -97,8 +74,9 @@ io.on('connection', (socket) => {
     });
 
     socket.on('send_message', (data) => {
-        // data: { orderId, message, sender: { name, role, _id } }
-        io.to(`chat_${data.orderId}`).emit('receive_message', data);
+        // Simulation: Chat disabled
+        console.log('Message sent (Simulated):', data.message);
+        // io.to(`chat_${data.orderId}`).emit('receive_message', data);
     });
 
     // Driver Status Events
