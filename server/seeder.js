@@ -32,13 +32,6 @@ const importData = async () => {
                 phone: '9876543210',
             },
             {
-                name: 'Jane Driver',
-                email: 'd2@gmail.com',
-                password: 'd2@123',
-                role: 'Driver',
-                phone: '9876543211',
-            },
-            {
                 name: 'Alice Customer',
                 email: 'c@gmail.com',
                 password: 'c@123',
