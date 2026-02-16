@@ -279,11 +279,9 @@ const CustomerDashboard = () => {
                                                     Pay Now
                                                 </Button>
                                             )}
-                                            {(selectedOrder.status === 'Assigned' || selectedOrder.status === 'Picked Up' || selectedOrder.status === 'Out for Delivery') && (
-                                                <Button variant="contained" color="warning" startIcon={<ChatIcon />} onClick={() => setIsChatOpen(!isChatOpen)}>
-                                                    {isChatOpen ? 'Close Chat' : 'Chat with Driver'}
-                                                </Button>
-                                            )}
+                                            <Button variant="contained" color="warning" startIcon={<ChatIcon />} onClick={() => setIsChatOpen(!isChatOpen)} disabled title="Chat Disabled">
+                                                {/*isChatOpen ? 'Close Chat' : 'Chat with Driver'*/} Chat Disabled
+                                            </Button>
                                         </Box>
                                     </Box>
                                     <Box sx={{ p: 4 }}>
@@ -414,7 +412,8 @@ const CustomerDashboard = () => {
             </Grid>
 
             {/* Floating Chat Window (Fixed Position) */}
-            {/* Floating Chat Window (Fixed Position) */}
+            {/* Floating Chat Window (Disabled) */}
+            {/* 
             {
                 selectedOrder && isChatOpen && (
                     <Box
@@ -436,6 +435,7 @@ const CustomerDashboard = () => {
                     </Box>
                 )
             }
+            */}
 
             <Dialog open={isOrderModalVisible} onClose={() => setIsOrderModalVisible(false)} maxWidth="md" fullWidth>
                 <DialogTitle>Request New Delivery Service</DialogTitle>

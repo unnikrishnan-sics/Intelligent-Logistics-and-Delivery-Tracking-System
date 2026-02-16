@@ -503,7 +503,8 @@ const AdminDashboard = () => {
                 </DialogActions>
             </Dialog>
 
-            {/* Chat Modal */}
+            {/* Chat Modal (Disabled) */}
+            {/* 
             <Dialog
                 open={isChatModalVisible}
                 onClose={() => setIsChatModalVisible(false)}
@@ -521,6 +522,7 @@ const AdminDashboard = () => {
                     />
                 )}
             </Dialog>
+            */}
         </Container>
     );
 };

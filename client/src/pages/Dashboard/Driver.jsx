@@ -293,8 +293,8 @@ const DriverDashboard = () => {
                                 subheader={activeOrder.status === 'Assigned' ? "Go to Pickup Location" : "Deliver to Customer"}
                                 action={
                                     <Stack direction="row" spacing={1}>
-                                        <Button startIcon={<ChatIcon />} variant="outlined" onClick={() => setIsChatOpen(!isChatOpen)}>
-                                            {isChatOpen ? 'Close Chat' : 'Chat'}
+                                        <Button startIcon={<ChatIcon />} variant="outlined" onClick={() => setIsChatOpen(!isChatOpen)} disabled>
+                                            {/*isChatOpen ? 'Close Chat' : 'Chat'*/} Chat Disabled
                                         </Button>
                                         <Button startIcon={<OpenInNew />} onClick={() => {
                                             const target = activeOrder.status === 'Assigned' ? activeOrder.pickup_coordinates : activeOrder.dest_coordinates;
@@ -422,12 +422,12 @@ const DriverDashboard = () => {
                 </Grid>
             </Grid>
 
-            {/* Floating Chat Window (Fixed Position) */}
-            {activeOrder && isChatOpen && (
+            {/* Floating Chat Window (Disabled) */}
+            {/*activeOrder && isChatOpen && (
                 <Box sx={{ position: 'fixed', bottom: 30, right: 30, zIndex: 9999 }}>
                     <ChatWindow orderId={activeOrder._id} height="500px" onClose={() => setIsChatOpen(false)} />
                 </Box>
-            )}
+            )*/}
 
             {/* OTP Modal */}
             <Dialog open={isOTPModalVisible} onClose={() => setIsOTPModalVisible(false)} maxWidth="xs" fullWidth>
