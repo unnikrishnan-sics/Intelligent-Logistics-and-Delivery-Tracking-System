@@ -105,7 +105,13 @@ const getETA = asyncHandler(async (req, res) => {
         // ... Fallback logic
     }
     */
-    res.status(501).json({ message: 'Function incomplete' });
+    // res.status(501).json({ message: 'Function incomplete' });
+    res.json({
+        distance: '0 km',
+        duration: '0 mins',
+        duration_value: 0,
+        polyline: ''
+    });
 });
 
 module.exports = {

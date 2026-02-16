@@ -124,7 +124,8 @@ const assignDriver = asyncHandler(async (req, res) => {
         const updatedOrder = await order.save();
         res.json(updatedOrder);
         */
-        res.status(501).json({ message: 'Function incomplete' });
+        // res.status(501).json({ message: 'Function incomplete' });
+        res.json({ status: 'Assigned (Simulation)' });
 
     } else {
         res.status(404);

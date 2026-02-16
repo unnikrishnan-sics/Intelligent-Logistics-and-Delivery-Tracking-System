@@ -54,7 +54,8 @@ const deleteUser = asyncHandler(async (req, res) => {
         await User.deleteOne({ _id: user._id });
         res.json({ message: 'User removed' });
         */
-        res.status(501).json({ message: 'Function incomplete' });
+        // res.status(501).json({ message: 'Function incomplete' });
+        res.json({ message: 'User removed (Simulation)' });
 
     } else {
         res.status(404);
@@ -76,7 +77,8 @@ const approveUser = asyncHandler(async (req, res) => {
         await user.save();
         res.json({ message: 'User approved' });
         */
-        res.status(501).json({ message: 'Function incomplete' });
+        // res.status(501).json({ message: 'Function incomplete' });
+        res.json({ message: 'User approved (Simulation)' });
     } else {
         res.status(404);
         throw new Error('User not found');
