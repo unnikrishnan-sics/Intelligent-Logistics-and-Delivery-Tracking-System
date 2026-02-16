@@ -2,28 +2,35 @@
 
 A full-stack logistics and delivery tracking application built with the MERN stack (MongoDB, Express, React, Node.js). This version is designed for educational purposes, with key logic points commented out for students to implement.
 
-## Project Structure
+## Project Description
 
-- **client/**: The frontend React application.
-- **server/**: The backend Node.js/Express API.
+IntelliDrive is a comprehensive solution for managing logistics operations. It connects Admins, Drivers, and Customers in a seamless ecosystem to handle order creation, driver assignment, vehicle tracking, and proof of delivery. The system leverages real-time updates and route optimization to ensure efficient delivery management.
 
-## Features (Student Implementation Required)
+## User Functions & Flow
 
-- **Authentication**: User registration and login. *Implementation Exercise: User Profile Retrieval.*
-- **Admin Dashboard**: Manage users (Drivers/Customers). *Implementation Exercise: User Deletion & Approval.*
-- **Order Management**: Create orders, assign drivers, and track status. *Implementation Exercise: Driver Assignment, Status Updates, OTP Verification.*
-- **Real-time Tracking**: Track delivery vehicles. *Implementation Exercise: ETA Calculation.*
-- **Route Optimization**: Optimize delivery routes. *Implementation Exercise: Nearest Neighbor Algorithm.*
+### 1. Admin
+- **Dashboard**: View analytics (Total Orders, Drivers, Delivered, Pending).
+- **User Management**: View and **delete** users (Drivers/Customers). **Approve** new driver registrations.
+- **Order Management**: View all orders and **assign drivers** to pending orders.
 
-## Prerequisites
+### 2. Driver
+- **Dashboard**: View assigned tasks and delivery requests.
+- **Order Fulfillment**: Update order status (Accepted -> Out for Delivery -> Delivered).
+- **Verification**: **Verify OTP** provided by the customer at the time of delivery.
+- **Tracking**: Update current location to allow real-time tracking (Simulated).
 
-Before running the project, ensure you have the following installed:
-
-1.  **Node.js** (v14 or higher) & **npm**
-2.  **MongoDB** (Local instance or Atlas URI)
-3.  **Git**
+### 3. Customer
+- **Order Creation**: Place new delivery orders with pickup and destination details.
+- **Tracking**: Track the status and location of their package in real-time.
+- **History**: View past order history.
 
 ## Installation Guide
+
+### Prerequisites
+
+- **Node.js** (v14 or higher) & **npm**
+- **MongoDB** (Local instance or Atlas URI)
+- **Git**
 
 ### 1. Clone the Repository
 
@@ -47,70 +54,33 @@ Create a `.env` file in the `server` directory with the following variables:
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
-# Optional: Email Service Credentials (if email features are enabled)
+# Optional: Email Service Credentials
 # EMAIL_SERVICE=gmail
 # EMAIL_USERNAME=your_email@gmail.com
 # EMAIL_PASSWORD=your_email_password
-# Google Maps API Key (for tracking features)
+# Google Maps API Key
 # GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 ```
 
-### 3. Setup Client (Frontend)
+Start the server:
 
-Navigate to the client directory and install dependencies:
-
-```bash
-cd ../client
-npm install
-```
-
-Create a `.env` file in the `client` directory (if needed, usually optional for dev) or update `vite.config.js` / API settings if your server runs on a different port. By default, it expects `http://localhost:5000`.
-
-## Running the Application
-
-### Option 1: Run Selectively
-
-**Run Server:**
-Open a terminal in the `server` directory:
 ```bash
 npm run dev
 # Server running on port 5000
 ```
 
-**Run Client:**
-Open a separate terminal in the `client` directory:
-```bash
-npm run dev
-# Client running on http://localhost:5173 (or similar)
-```
+### 3. Setup Client (Frontend)
 
-### Option 2: Run Concurrently (If configured)
-
-If a root `package.json` is configured for concurrent running (check root folder), you can run:
+Open a new terminal, navigate to the client directory and install dependencies:
 
 ```bash
-npm run dev
+cd client
+npm install
 ```
 
-(Note: If `concurrently` is not set up in the root, stick to Option 1).
+Start the client application:
 
-## Student Implementation Guide
-
-Navigate to the following files and look for `// TODO` comments to implement the missing logic:
-
-1.  **Server**: `server/controllers/authController.js` - `getUserProfile`
-2.  **Server**: `server/controllers/adminController.js` - `deleteUser`, `approveUser`
-3.  **Server**: `server/controllers/orderController.js` - `assignDriver`, `updateOrderStatus`, `verifyOrderOTP`
-4.  **Server**: `server/controllers/trackingController.js` - `getETA`
-5.  **Client**: `client/src/utils/RouteOptimizer.js` - `optimizeRoute`, `predictETA`
-
-## API Endpoints (Quick Reference)
-
-- **Auth**: `POST /api/auth/login`, `POST /api/auth/register`
-- **Users**: `GET /api/admin/drivers`, `GET /api/admin/customers`
-- **Orders**: `POST /api/orders`, `GET /api/orders`, `PUT /api/orders/:id/assign`
-- **Tracking**: `PUT /api/tracking/update`, `GET /api/tracking/:orderId/history`
-
-## License
-
-This project is for educational purposes.
+```bash
+npm run dev
+# Client running on http://localhost:5173
+```
