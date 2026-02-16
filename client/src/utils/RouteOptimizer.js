@@ -53,7 +53,9 @@ export const optimizeRoute = (currentPos, destinations) => {
 
     return optimizedPath;
     */
-    return [];
+
+    // Simulation: Return orders as-is if optimization is not implemented
+    return destinations;
 };
 
 // Predict ETA based on distance and average city speed (30 km/h)
