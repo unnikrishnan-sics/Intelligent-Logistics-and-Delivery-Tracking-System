@@ -168,7 +168,8 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
 
         res.json(updatedOrder);
         */
-        res.status(501).json({ message: 'Function incomplete' });
+        // res.status(501).json({ message: 'Function incomplete' });
+        res.json({ status: status + ' (Simulation)' });
     } else {
         res.status(404);
         throw new Error('Order not found');
@@ -196,7 +197,8 @@ const verifyOrderOTP = asyncHandler(async (req, res) => {
             throw new Error('Invalid OTP');
         }
         */
-        res.status(501).json({ message: 'Function incomplete' });
+        // res.status(501).json({ message: 'Function incomplete' });
+        res.json({ status: 'Delivered (Simulation)' });
     } else {
         res.status(404);
         throw new Error('Order not found');
