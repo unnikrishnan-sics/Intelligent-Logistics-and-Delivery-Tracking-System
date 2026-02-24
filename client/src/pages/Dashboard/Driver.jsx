@@ -126,7 +126,7 @@ const DriverDashboard = () => {
 
     useEffect(() => {
         fetchData();
-        socketRef.current = io(import.meta.env.VITE_SERVER_URL || 'http://localhost:4000');
+        socketRef.current = io(import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000');
 
         // Announce Driver Online
         const user = JSON.parse(localStorage.getItem('userInfo'));

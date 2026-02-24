@@ -41,7 +41,7 @@ const DispatchMap = ({ orders, drivers }) => {
     }, [drivers]);
 
     useEffect(() => {
-        const socket = io(import.meta.env.VITE_SERVER_URL || 'http://localhost:4000');
+        const socket = io(import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000');
 
         socket.on('driver_location_updated', (data) => {
             if (data.driverId) {
