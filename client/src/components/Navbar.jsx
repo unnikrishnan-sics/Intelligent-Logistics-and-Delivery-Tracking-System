@@ -9,7 +9,12 @@ import {
     Menu,
     MenuItem,
     useMediaQuery,
-    useTheme
+    useTheme,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions
 } from '@mui/material';
 import {
     Logout,
@@ -32,12 +37,22 @@ const Navbar = () => {
     const location = useLocation();
 
     const [anchorEl, setAnchorEl] = useState(null);
+    const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
-    const handleLogout = () => {
+    const handleLogoutClick = () => {
+        setLogoutDialogOpen(true);
+        handleClose(); // close mobile menu if open
+    };
+
+    const handleLogoutCancel = () => {
+        setLogoutDialogOpen(false);
+    };
+
+    const handleLogoutConfirm = () => {
         logout();
         toast.success('Logged out successfully');
         navigate('/login');
-        setAnchorEl(null);
+        setLogoutDialogOpen(false);
     };
 
     const handleMenu = (event) => {
@@ -133,7 +148,7 @@ const Navbar = () => {
                                     color="error"
                                     size="small"
                                     startIcon={<Logout />}
-                                    onClick={handleLogout}
+                                    onClick={handleLogoutClick}
                                 >
                                     Logout
                                 </Button>
@@ -196,7 +211,7 @@ const Navbar = () => {
                                 </MenuItem>
                             ))}
                             {user ? (
-                                <MenuItem onClick={handleLogout}>
+                                <MenuItem onClick={handleLogoutClick}>
                                     <Logout /> <Typography sx={{ ml: 1 }}>Logout</Typography>
                                 </MenuItem>
                             ) : (
@@ -209,6 +224,31 @@ const Navbar = () => {
                     </>
                 )}
             </Toolbar>
+
+            {/* Logout Confirmation Dialog */}
+            <Dialog
+                open={logoutDialogOpen}
+                onClose={handleLogoutCancel}
+                aria-labelledby="logout-dialog-title"
+                aria-describedby="logout-dialog-description"
+            >
+                <DialogTitle id="logout-dialog-title">
+                    {"Confirm Logout"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="logout-dialog-description">
+                        Are you sure you want to log out of your account?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleLogoutCancel} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleLogoutConfirm} color="error" variant="contained" autoFocus>
+                        Logout
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </AppBar>
     );
 };

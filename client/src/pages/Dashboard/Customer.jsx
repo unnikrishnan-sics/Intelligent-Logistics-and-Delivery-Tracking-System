@@ -57,6 +57,7 @@ const CustomerDashboard = () => {
     const [feedbackOpen, setFeedbackOpen] = useState(false);
     const [feedbackType, setFeedbackType] = useState('Review');
 
+    const [phoneError, setPhoneError] = useState('');
     const [formData, setFormData] = useState({
         receiver_name: '',
         receiver_phone: '',
@@ -166,13 +167,34 @@ const CustomerDashboard = () => {
     };
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+
+        if (name === 'receiver_phone') {
+            if (value && !/^\d*$/.test(value)) {
+                setPhoneError('Phone number must contain only digits');
+            } else if (value && (value.length < 10 || value.length > 15)) {
+                setPhoneError('Phone number must be 10-15 digits');
+            } else {
+                setPhoneError('');
+            }
+        }
     };
 
     const handleCreateOrder = async () => {
+        if (!formData.receiver_name || !formData.pickup_addr || !formData.dest_addr || !formData.weight) {
+            toast.error('Please fill in all required fields');
+            return;
+        }
+
+        if (phoneError || !formData.receiver_phone) {
+            toast.error('Please enter a valid receiver phone number');
+            return;
+        }
+
         try {
             await api.post('/orders', formData);
-            toast.success('Delivery request sent!');
+            toast.success('Successful submission! Delivery request sent.');
             setIsOrderModalVisible(false);
             setFormData({
                 receiver_name: '',
@@ -186,7 +208,7 @@ const CustomerDashboard = () => {
             });
             fetchData();
         } catch (error) {
-            toast.error('Failed to send request');
+            toast.error(error.response?.data?.message || 'Failed to send request');
         }
     };
 
@@ -443,7 +465,16 @@ const CustomerDashboard = () => {
                     <Grid container spacing={3} sx={{ mt: 1 }}>
                         <Grid size={{ xs: 12, md: 6 }}>
                             <TextField margin="dense" fullWidth label="Receiver Name" name="receiver_name" value={formData.receiver_name} onChange={handleChange} />
-                            <TextField margin="dense" fullWidth label="Receiver Phone" name="receiver_phone" value={formData.receiver_phone} onChange={handleChange} />
+                            <TextField
+                                margin="dense"
+                                fullWidth
+                                label="Receiver Phone"
+                                name="receiver_phone"
+                                value={formData.receiver_phone}
+                                onChange={handleChange}
+                                error={!!phoneError}
+                                helperText={phoneError}
+                            />
                             <TextField margin="dense" fullWidth label="Pickup Address" name="pickup_addr" value={formData.pickup_addr} onChange={handleChange} />
                             <TextField margin="dense" fullWidth label="Destination Address" name="dest_addr" value={formData.dest_addr} onChange={handleChange} />
                             <Stack direction="row" spacing={2} sx={{ mt: 1 }}>

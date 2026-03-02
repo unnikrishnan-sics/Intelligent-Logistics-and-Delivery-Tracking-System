@@ -67,3 +67,9 @@ body {
     padding: 0 15px;
   }
 }
+
+/* Hide default browser password reveal eye icon on Windows/Edge */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}

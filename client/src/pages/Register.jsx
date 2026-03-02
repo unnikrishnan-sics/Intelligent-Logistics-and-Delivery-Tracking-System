@@ -12,9 +12,10 @@ import {
     Box,
     Container,
     InputAdornment,
-    CircularProgress
+    CircularProgress,
+    IconButton
 } from '@mui/material';
-import { Person, Lock, Email, Phone, DirectionsCar, ShoppingBag } from '@mui/icons-material';
+import { Person, Lock, Email, Phone, DirectionsCar, ShoppingBag, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -32,9 +33,27 @@ const Register = () => {
         password: '',
         role: 'Customer'
     });
+    const [phoneError, setPhoneError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+
+        if (name === 'phone') {
+            if (value && !/^\d*$/.test(value)) {
+                setPhoneError('Phone number must contain only digits');
+            } else if (value && (value.length < 10 || value.length > 15)) {
+                setPhoneError('Phone number must be 10-15 digits');
+            } else {
+                setPhoneError('');
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -63,7 +82,12 @@ const Register = () => {
             const { data } = await api.post('/auth/register', formData);
             setUser(data, data.token);
             toast.success('Registration successful!');
-            navigate('/');
+
+            // Redirect based on role
+            if (data.role === 'Admin') navigate('/dashboard/admin');
+            else if (data.role === 'Driver') navigate('/dashboard/driver');
+            else navigate('/dashboard/customer');
+
         } catch (error) {
             toast.error(error.response?.data?.message || 'Registration failed');
         } finally {
@@ -151,6 +175,8 @@ const Register = () => {
                                 autoComplete="tel"
                                 value={formData.phone}
                                 onChange={handleChange}
+                                error={!!phoneError}
+                                helperText={phoneError}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -181,7 +207,7 @@ const Register = () => {
                                 fullWidth
                                 name="password"
                                 label="Password"
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="new-password"
                                 value={formData.password}
@@ -192,6 +218,18 @@ const Register = () => {
                                             <Lock color="action" />
                                         </InputAdornment>
                                     ),
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
                                 }}
                             />
 

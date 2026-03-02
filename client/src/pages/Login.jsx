@@ -10,9 +10,10 @@ import {
     Box,
     Container,
     InputAdornment,
-    CircularProgress
+    CircularProgress,
+    IconButton
 } from '@mui/material';
-import { Lock, Email } from '@mui/icons-material';
+import { Lock, Email, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -23,6 +24,13 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const setUser = useAuthStore((state) => state.setUser);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -113,7 +121,7 @@ const Login = () => {
                                 fullWidth
                                 name="password"
                                 label="Password"
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="current-password"
                                 value={formData.password}
@@ -124,6 +132,18 @@ const Login = () => {
                                             <Lock color="action" />
                                         </InputAdornment>
                                     ),
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
                                 }}
                             />
                             <FormControlLabel

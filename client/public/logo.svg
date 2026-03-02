@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A" /> <!-- Dark Blue -->
+      <stop offset="100%" stop-color="#3B82F6" /> <!-- Lighter Blue -->
+    </linearGradient>
+    
+    <linearGradient id="boxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" /> <!-- Amber/Gold -->
+      <stop offset="100%" stop-color="#D97706" /> <!-- Darker Gold -->
+    </linearGradient>
+
+    <!-- Drop Shadow for depth -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="200" height="200" rx="40" fill="url(#bgGradient)" filter="url(#dropShadow)" />
+
+  <!-- Outer Tracking Circle / Radar rings -->
+  <circle cx="100" cy="100" r="70" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-dasharray="8 8" />
+  <circle cx="100" cy="100" r="50" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+
+  <!-- Delivery Box / Cube (Isometric View) -->
+  <g transform="translate(100, 110)">
+    <!-- Top Face -->
+    <polygon points="0,-40 35,-20 0,0 -35,-20" fill="#FCD34D" />
+    <!-- Left Face -->
+    <polygon points="-35,-20 0,0 0,35 -35,15" fill="#F59E0B" />
+    <!-- Right Face -->
+    <polygon points="0,0 35,-20 35,15 0,35" fill="#B45309" />
+    
+    <!-- Packing Tape detail on top -->
+    <polygon points="-10,-25 10,-15 5,-10 -15,-20" fill="rgba(255,255,255,0.6)" />
+    <polygon points="-5,-10 15,-20 10,-25 -10,-15" fill="rgba(255,255,255,0.6)" />
+  </g>
+
+  <!-- Location Pin hovering above the box -->
+  <g transform="translate(100, 50)" filter="url(#dropShadow)">
+    <path d="M0,-15 C10,-15 18,-7 18,3 C18,15 0,30 0,30 C0,30 -18,15 -18,3 C-18,-7 -10,-15 0,-15 Z" fill="#EF4444" />
+    <!-- Pin hole -->
+    <circle cx="0" cy="-2" r="6" fill="#FFFFFF" />
+  </g>
+
+  <!-- Dynamic swoosh / speed lines representing speed & delivery -->
+  <path d="M40,145 Q80,165 160,135" fill="none" stroke="#22C55E" stroke-width="6" stroke-linecap="round" filter="url(#dropShadow)" />
+  <path d="M50,160 Q90,175 140,150" fill="none" stroke="#10B981" stroke-width="4" stroke-linecap="round" opacity="0.7" />
+
+</svg>
