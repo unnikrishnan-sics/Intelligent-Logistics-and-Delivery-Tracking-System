@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     Container, Paper, Box, Typography, TextField, Button,
     Avatar, Grid, Card, CardContent, Divider, Stack, IconButton,
@@ -15,7 +16,8 @@ import api from '../utils/api';
 import toast from 'react-hot-toast';
 
 const Profile = () => {
-    const { user, setUser } = useAuthStore();
+    const { user, setUser, logout } = useAuthStore();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: user?.name || '',
@@ -24,6 +26,7 @@ const Profile = () => {
     });
 
     const [phoneError, setPhoneError] = useState('');
+    const emailChanged = formData.email !== user?.email;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -42,7 +45,7 @@ const Profile = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        if (phoneError || !formData.phone || !formData.name) {
+        if (phoneError || !formData.phone || !formData.name || !formData.email) {
             toast.error('Please fix the errors before saving');
             return;
         }
@@ -51,10 +54,18 @@ const Profile = () => {
         try {
             const { data } = await api.put('/auth/profile', {
                 name: formData.name,
-                phone: formData.phone
+                phone: formData.phone,
+                email: formData.email
             });
-            setUser(data, localStorage.getItem('token')); // Token remains same or updated if backend sends
-            toast.success('Profile updated successfully');
+
+            if (emailChanged) {
+                toast.success('Email updated. Please log in again with your new email.');
+                logout();
+                navigate('/login');
+            } else {
+                setUser(data, localStorage.getItem('token'));
+                toast.success('Profile updated successfully');
+            }
         } catch (error) {
             toast.error(error.response?.data?.message || 'Update failed');
         } finally {
@@ -176,14 +187,16 @@ const Profile = () => {
                                     <TextField
                                         fullWidth
                                         label="Email Address"
+                                        name="email"
                                         value={formData.email}
-                                        disabled
+                                        onChange={handleChange}
+                                        required
                                         variant="outlined"
-                                        helperText="Email cannot be changed"
+                                        helperText={emailChanged ? "Note: Changing your email will log you out" : "Login identity"}
                                         InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position="start">
-                                                    <Email color="disabled" />
+                                                    <Email color="primary" />
                                                 </InputAdornment>
                                             ),
                                         }}
