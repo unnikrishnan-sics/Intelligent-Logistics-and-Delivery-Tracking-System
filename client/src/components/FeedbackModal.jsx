@@ -23,7 +23,7 @@ const FeedbackModal = ({ open, onClose, orderId, type = 'Review', onSubmitSucces
         try {
             await api.post('/reviews', {
                 orderId,
-                rating: type === 'Review' ? rating : undefined,
+                rating,
                 feedback,
                 type
             });
@@ -46,20 +46,20 @@ const FeedbackModal = ({ open, onClose, orderId, type = 'Review', onSubmitSucces
             </DialogTitle>
             <DialogContent dividers>
                 <Stack spacing={3} sx={{ mt: 1 }}>
-                    {type === 'Review' && (
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-                            <Typography component="legend">How was the driver?</Typography>
-                            <Rating
-                                name="simple-controlled"
-                                value={rating}
-                                onChange={(event, newValue) => {
-                                    setRating(newValue);
-                                }}
-                                size="large"
-                                emptyIcon={<Star style={{ opacity: 0.55 }} fontSize="inherit" />}
-                            />
-                        </Box>
-                    )}
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                        <Typography component="legend">
+                            {type === 'Review' ? 'How was the driver?' : 'Rate the driver (1-5)'}
+                        </Typography>
+                        <Rating
+                            name="simple-controlled"
+                            value={rating}
+                            onChange={(event, newValue) => {
+                                setRating(newValue);
+                            }}
+                            size="large"
+                            emptyIcon={<Star style={{ opacity: 0.55 }} fontSize="inherit" />}
+                        />
+                    </Box>
 
                     <TextField
                         autoFocus

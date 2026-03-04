@@ -257,13 +257,13 @@ const AdminDashboard = () => {
             headerName: 'Rating',
             width: 140,
             renderCell: (params) => (
-                params.row.type === 'Review' ? <Rating value={params.value} readOnly size="small" /> : 'N/A'
+                <Rating value={params.value || 0} readOnly size="small" />
             )
         },
         { field: 'feedback', headerName: 'Feedback / Issue', flex: 1 },
         { field: 'driver', headerName: 'Driver', width: 150, valueGetter: (params) => params.row?.driver?.name || 'Unknown' },
         { field: 'customer', headerName: 'Customer', width: 150, valueGetter: (params) => params.row?.customer?.name || 'Unknown' },
-        { field: 'order', headerName: 'Order ID', width: 100, valueGetter: (params) => params.row?.order?.id ? params.row.order.id.slice(-6).toUpperCase() : 'N/A' }
+        { field: 'order', headerName: 'Order ID', width: 100, valueGetter: (params) => params.row?.order?._id ? params.row.order._id.slice(-6).toUpperCase() : 'N/A' }
     ];
 
     const chartData = [
