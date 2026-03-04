@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import AdminDashboard from './pages/Dashboard/Admin';
 import DriverDashboard from './pages/Dashboard/Driver';
 import CustomerDashboard from './pages/Dashboard/Customer';
+import Profile from './pages/Profile';
 import useAuthStore from './store/authStore';
 import NotFound from './pages/NotFound';
 

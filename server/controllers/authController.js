@@ -89,22 +89,41 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   GET /api/auth/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-    // 50% Provided Code
+    const user = await User.findById(req.user._id).select('-password');
+
+    if (user) {
+        res.json(user);
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+});
+
+// @desc    Update user profile
+// @route   PUT /api/auth/profile
+// @access  Private
+const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
 
     if (user) {
-        // TODO: Complete the response
-        /* 
+        user.name = req.body.name || user.name;
+        user.phone = req.body.phone || user.phone;
+
+        if (req.body.password) {
+            user.password = req.body.password;
+        }
+
+        const updatedUser = await user.save();
+
         res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            phone: user.phone,
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            role: updatedUser.role,
+            phone: updatedUser.phone,
+            isApproved: updatedUser.isApproved,
+            token: generateToken(updatedUser._id),
         });
-        */
-        // res.status(501).json({ message: 'Function incomplete' });
-        res.json({}); // Return empty object to prevent crash
     } else {
         res.status(404);
         throw new Error('User not found');
@@ -115,4 +134,5 @@ module.exports = {
     authUser,
     registerUser,
     getUserProfile,
+    updateUserProfile,
 };

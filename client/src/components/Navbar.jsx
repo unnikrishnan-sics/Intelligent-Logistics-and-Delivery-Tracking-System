@@ -140,7 +140,18 @@ const Navbar = () => {
 
                         {user ? (
                             <Box sx={{ ml: 2, display: 'flex', alignItems: 'center' }}>
-                                <Typography variant="body2" sx={{ mr: 2, fontWeight: 500 }}>
+                                <Typography
+                                    variant="body2"
+                                    component={Link}
+                                    to="/profile"
+                                    sx={{
+                                        mr: 2,
+                                        fontWeight: 500,
+                                        textDecoration: 'none',
+                                        color: 'text.primary',
+                                        '&:hover': { color: 'primary.main' }
+                                    }}
+                                >
                                     {user.name}
                                 </Typography>
                                 <Button
@@ -211,9 +222,14 @@ const Navbar = () => {
                                 </MenuItem>
                             ))}
                             {user ? (
-                                <MenuItem onClick={handleLogoutClick}>
-                                    <Logout /> <Typography sx={{ ml: 1 }}>Logout</Typography>
-                                </MenuItem>
+                                <>
+                                    <MenuItem onClick={() => { navigate('/profile'); handleClose(); }}>
+                                        <Person /> <Typography sx={{ ml: 1 }}>Profile</Typography>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleLogoutClick}>
+                                        <Logout /> <Typography sx={{ ml: 1 }}>Logout</Typography>
+                                    </MenuItem>
+                                </>
                             ) : (
                                 <Box>
                                     <MenuItem onClick={() => { navigate('/login'); handleClose(); }}>Login</MenuItem>
