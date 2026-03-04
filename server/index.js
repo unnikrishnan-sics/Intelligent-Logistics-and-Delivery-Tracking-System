@@ -74,9 +74,10 @@ io.on('connection', (socket) => {
     });
 
     socket.on('send_message', (data) => {
-        // Simulation: Chat disabled
-        console.log('Message sent (Simulated):', data.message);
-        // io.to(`chat_${data.orderId}`).emit('receive_message', data);
+        // Broadcast the message to the specific order room
+        const room = `chat_${data.orderId}`;
+        console.log(`Broadcasting message to room: ${room}`);
+        io.to(room).emit('receive_message', data);
     });
 
     // Driver Status Events
