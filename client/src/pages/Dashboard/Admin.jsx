@@ -206,6 +206,23 @@ const AdminDashboard = () => {
                     ))}
                 </TextField>
             )
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            width: 100,
+            renderCell: (params) => (
+                <IconButton
+                    color="primary"
+                    onClick={() => {
+                        setSelectedChatOrderId(params.row._id);
+                        setIsChatModalVisible(true);
+                    }}
+                    disabled={!params.row.driver_id}
+                >
+                    <ChatIcon />
+                </IconButton>
+            )
         }
     ];
 
@@ -503,8 +520,7 @@ const AdminDashboard = () => {
                 </DialogActions>
             </Dialog>
 
-            {/* Chat Modal (Disabled) */}
-            {/* 
+            {/* Chat Modal */}
             <Dialog
                 open={isChatModalVisible}
                 onClose={() => setIsChatModalVisible(false)}
@@ -522,7 +538,6 @@ const AdminDashboard = () => {
                     />
                 )}
             </Dialog>
-            */}
         </Container>
     );
 };

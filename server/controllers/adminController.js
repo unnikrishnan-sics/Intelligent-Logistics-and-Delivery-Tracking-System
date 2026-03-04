@@ -61,13 +61,14 @@ const deleteUser = asyncHandler(async (req, res) => {
 // @route   PUT /api/admin/users/:id/approve
 // @access  Private/Admin
 const approveUser = asyncHandler(async (req, res) => {
-    // 50% Provided Code
-    const user = await User.findById(req.params.id);
+    const user = await User.findByIdAndUpdate(
+        req.params.id,
+        { isApproved: true },
+        { new: true }
+    );
 
     if (user) {
-        user.isApproved = true;
-        await user.save();
-        res.json({ message: 'User approved' });
+        res.json({ message: 'User approved', user: { _id: user._id, isApproved: user.isApproved } });
     } else {
         res.status(404);
         throw new Error('User not found');
