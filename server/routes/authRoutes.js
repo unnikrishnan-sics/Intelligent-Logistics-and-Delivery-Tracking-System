@@ -4,6 +4,7 @@ const {
     authUser,
     registerUser,
     getUserProfile,
+    updateUserProfile,
 } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 
